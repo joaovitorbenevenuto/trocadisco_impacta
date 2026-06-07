@@ -1,22 +1,28 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <title>Login - Trocadisco</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-
 <body>
     <div class="container">
         <h2>Login no Trocadisco</h2>
-        <form method="POST" action="/login">
-            <input type="text" name="login" placeholder="Login" required>
-            <input type="password" name="senha" placeholder="Senha" required>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for categoria, mensagem in messages %}
+                    <div style="color: #e74c3c; font-weight: bold; margin-bottom: 15px; text-align: center;">
+                        {{ mensagem }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <form method="POST" action="{{ url_for('usuarios.login') }}">
+            <input type="text" name="login" placeholder="Seu Login" required>
+            <input type="password" name="senha" placeholder="Sua Senha" required>
             <button type="submit">Entrar</button>
         </form>
-        <a href="{{ url_for('usuarios.cadastro') }}" class="link-alternativo">Não tem conta? Cadastre-se</a>
+        <a href="{{ url_for('usuarios.cadastro') }}" class="link-alternativo">Criar uma conta</a>
     </div>
 </body>
-
 </html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Mercado de Discos - Trocadisco</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container" style="max-width: 800px;">
+        <h2>Mercado Trocadisco</h2>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for categoria, mensagem in messages %}
+                    <div style="background-color: #2ecc71; color: white; font-weight: bold; padding: 15px; margin-bottom: 20px; text-align: center; border-radius: 5px;">
+                        {{ mensagem }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <form method="GET" action="{{ url_for('discos.lista_discos') }}" style="display: flex; gap: 10px; margin-bottom: 20px;">
+            <input type="text" name="busca" placeholder="Buscar por título ou artista..." style="flex: 1;">
+            <button type="submit" style="width: auto; padding: 0 20px;">Buscar</button>
+        </form>
+        <div style="margin-top: 20px;">
+            {% if discos %}
+                {% for disco in discos %}
+                    <div style="background: #1a1a1a; padding: 15px; margin-bottom: 10px; border-radius: 5px; border-left: 5px solid {% if disco.dono_id == usuario_atual %}#d35400{% elif disco.status == 'em negociação' %}#f1c40f{% else %}#2ecc71{% endif %};">
+                        <h3 style="margin: 0; color: #f4e1d2;">{{ disco.titulo }} - {{ disco.artista }}</h3>
+                        <p style="margin: 5px 0; font-size: 14px; color: #bbb;">Gênero: {{ disco.genero }} | Ano: {{ disco.ano }}</p>
+                        <p style="margin: 5px 0; font-weight: bold; color: #f4e1d2;">R$ {{ disco.preco }}</p>
+                        <div style="margin-top: 10px; display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                {% if disco.dono_id == usuario_atual %}
+                                    <span style="background: #d35400; color: white; padding: 3px 8px; border-radius: 3px; font-size: 12px;">Seu Anúncio</span>
+                                {% elif disco.status == 'em negociação' %}
+                                    <span style="background: #f1c40f; color: #1a1a1a; padding: 3px 8px; border-radius: 3px; font-size: 12px; font-weight: bold;">Aguardando contato de {{ disco.dono_login }}...</span>
+                                {% else %}
+                                    <span style="background: #2ecc71; color: white; padding: 3px 8px; border-radius: 3px; font-size: 12px;">Disponível</span>
+                                {% endif %}
+                            </div>
+                            {% if disco.dono_id != usuario_atual and disco.status == 'disponivel' %}
+                                <form method="POST" action="{{ url_for('discos.comprar_disco', disco_id=disco.id) }}" style="margin: 0;">
+                                    <button type="submit" style="background: #2ecc71; color: white; border: none; padding: 5px 15px; border-radius: 3px; cursor: pointer; font-size: 14px;">
+                                        Tenho Interesse / Comprar
+                                    </button>
+                                </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p style="text-align: center; color: #888;">Nenhum disco encontrado.</p>
+            {% endif %}
+        </div>
+        <a href="{{ url_for('usuarios.dashboard') }}" class="link-alternativo" style="margin-top: 20px;">Voltar para o Painel</a>
+    </div>
+</body>
+</html>

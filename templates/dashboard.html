@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Painel - Trocadisco</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .menu-dashboard {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn-dashboard {
+            display: block;
+            text-align: center;
+            text-decoration: none;
+            padding: 15px;
+            background-color: #1a1a1a;
+            color: #f4e1d2;
+            font-family: 'Bungee', cursive;
+            font-size: 16px;
+            border: 2px solid #1a1a1a;
+            border-radius: 5px;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        .btn-dashboard:hover {
+            background-color: #d35400;
+            transform: scale(1.03);
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Trocadisco</h2>
+        <p>Bem-vindo ao seu painel de vinis!</p>
+
+        <div class="menu-dashboard">
+            <a href="{{ url_for('discos.cadastro_disco') }}" class="btn-dashboard">Anunciar Novo Disco</a>
+            <a href="{{ url_for('discos.lista_discos') }}" class="btn-dashboard">Ver Mercado / Buscar Discos</a>
+        </div>
+
+        <a href="{{ url_for('usuarios.index') }}" class="link-alternativo" style="margin-top: 30px;">Sair da Conta</a>
+    </div>
+</body>
+
+</html>

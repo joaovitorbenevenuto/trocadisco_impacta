@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastrar Disco - Trocadisco</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Cadastrar Disco</h2>
+        <form method="POST" action="{{ url_for('discos.cadastro_disco') }}">
+            <input type="text" name="titulo" placeholder="Título do Álbum" required>
+            <input type="text" name="artista" placeholder="Artista / Banda" required>
+            <input type="number" name="ano" placeholder="Ano de Lançamento" required>
+            <input type="number" name="preco" placeholder="Preço (R$)" step="0.01" min="0" required>
+            <input type="text" name="genero" placeholder="Gênero (Ex: Rock, MPB, Rap)">
+            
+            <button type="submit">Cadastrar</button>
+        </form>
+        
+        <a href="{{ url_for('usuarios.dashboard') }}" class="link-alternativo">Voltar para o Painel</a>
+    </div>
+</body>
+</html>

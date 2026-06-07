@@ -7,3 +7,15 @@ CREATE TABLE usuarios (
     nome VARCHAR(100),
     cidade VARCHAR(100)
 );
+
+CREATE TABLE discos (
+    id SERIAL PRIMARY KEY,
+    titulo VARCHAR(150) NOT NULL,
+    artista VARCHAR(150) NOT NULL,
+    ano INT NOT NULL,
+    genero VARCHAR(100),
+    preco DECIMAL(10, 2) NOT NULL,
+    status VARCHAR(20) DEFAULT 'disponivel',
+    usuario_id INT NOT NULL,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+);
